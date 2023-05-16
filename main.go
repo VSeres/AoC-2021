@@ -1,10 +1,10 @@
 package main
 
 import (
-	"aoc/day24"
+	"aoc/day2"
 	"fmt"
 )
 
 func main() {
-	fmt.Println(day24.Solv(false))
+	fmt.Println(day2.Solve(true))
 }
