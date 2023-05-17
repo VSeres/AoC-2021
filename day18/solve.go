@@ -22,7 +22,31 @@ func Solve() string {
 	for scanner.Scan() {
 		eq = add(eq, scanner.Text())
 	}
-	return magnitude(eq)
+
+	return fmt.Sprintf("part one: %s\npart two: %s", magnitude(eq), SolvePartTwo())
+}
+
+func SolvePartTwo() string {
+	file, err := os.Open("day18/input.txt")
+	if err != nil {
+		log.Fatal(err)
+	}
+	scanner := bufio.NewScanner(file)
+	lines := make([]string, 0, 4)
+	for scanner.Scan() {
+		lines = append(lines, scanner.Text())
+	}
+
+	max := 0
+	for lineNumber, line := range lines {
+		for i := lineNumber + 1; i < len(lines); i++ {
+			mag := magnitude(add(line, lines[i]))
+			if num, _ := strconv.Atoi(mag); num > max {
+				max = num
+			}
+		}
+	}
+	return strconv.Itoa(max)
 }
 
 func add(a string, b string) string {
@@ -114,7 +138,6 @@ func explode(eq string) (string, bool) {
 
 func magnitude(eq string) string {
 	regex := regexp.MustCompile(`\[\d+,\d+\]`)
-	max := 0
 	for {
 		str := regex.FindString(eq)
 		if str == "" {
@@ -124,10 +147,7 @@ func magnitude(eq string) string {
 		a, _ := strconv.Atoi(tmp[0])
 		b, _ := strconv.Atoi(tmp[1])
 		value := 3*a + 2*b
-		if value > max {
-			max = value
-		}
 		eq = strings.Replace(eq, str, strconv.Itoa(value), -1)
 	}
-	return fmt.Sprintf("%s Max: %d", eq, max)
+	return eq
 }
