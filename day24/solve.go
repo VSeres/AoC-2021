@@ -15,7 +15,7 @@ type Key struct {
 
 var badStates = make(map[Key]bool)
 
-func Solv(smallest bool) string {
+func Solve(smallest bool) string {
 	if smallest {
 		return run(0, 0, "", []int{1, 2, 3, 4, 5, 6, 7, 8, 9})
 	}
